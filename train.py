@@ -185,7 +185,7 @@ if __name__ == '__main__':
                 if run is not None:
                     run.log(log_dict, step=global_step+1)
 
-                ckpt = Checkpoint(-1, bg_class=(dataset.bg_class if cfg.eval_bg else []), eval_edit=False)
+                ckpt = Checkpoint(-1, bg_class=([] if net.cfg.eval_bg else testloader.dataset.bg_class), eval_edit=False)
 
             # test and save model every x iterations
             if global_step != 0 and (global_step+1) % cfg.aux.eval_every == 0:
