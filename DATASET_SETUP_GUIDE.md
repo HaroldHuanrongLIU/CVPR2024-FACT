@@ -81,5 +81,15 @@ Once your dataset is properly organized, use the `utils/gen_config.py` script to
 python utils/gen_config.py --dataset_path /path/to/dataset --dataset_name new_dataset --output_config new_dataset.yaml --base_config configs/breakfast.yaml
 ```
 
+## Some Notes
+- `average_transcript_length` is used for computing weight for null class.
+  - For one-to-one matching, this variable should be set to the average length of the videos' transcripts in datasets. Transcript means the list of action segments happened in a video (e.g., if a video contains a1->a2->a1->a3, it counts as transcript_length=4).
+  - For one-to-many matching, the variable should be set to the average number of unique actions in videos (e.g., if a video contains a1->a2->a1->a3, it counts as 3).
+- If videos contain lots of action segments and many of them have repeated action classes, it is recommended to use one-to-many matching. It will largely reduce computation cost.
+- The number of token is set as token_ratio * max_transcript_length
+  - token_ratio can be between 1.5 and 2. It needs to be >=1.
+  - For one-to-one matching, max_transcript_length is set to the longest length of video transcript in the dataset.
+  - For one-to-many matching, max_transcript_length is set to the maximal number of unique actions in one video.
+- [utils/gen_config.py](utils/gen_config.py) contains code to compute all the mentioned variables.  
 
 
