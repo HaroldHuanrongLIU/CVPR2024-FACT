@@ -10,15 +10,24 @@ from .utils import shrink_frame_label
 BASE = get_project_base()
 
 def load_feature(feature_dir, video, transpose):
-    file_name = os.path.join(feature_dir, video+'.npy')
-    feature = np.load(file_name)
+    npy_path = os.path.join(feature_dir, video + '.npy')
+    pth_path = os.path.join(feature_dir, video + '.pth')
+
+    if os.path.exists(npy_path):
+        feature = np.load(npy_path)
+    elif os.path.exists(pth_path):
+        feature = torch.load(pth_path, map_location='cpu', weights_only=False)
+        if isinstance(feature, torch.Tensor):
+            feature = feature.numpy()
+    else:
+        raise FileNotFoundError(f"Feature file not found: {npy_path} or {pth_path}")
 
     if transpose:
         feature = feature.T
     if feature.dtype != np.float32:
         feature = feature.astype(np.float32)
-    
-    return feature #[::sample_rate]
+
+    return feature
 
 def load_action_mapping(map_fname, sep=" "):
     label2index = dict()
@@ -187,6 +196,17 @@ def create_dataset(cfg: CfgNode):
         else: # for one-to-many matching
             average_transcript_len = 52
         groundTruth_path = os.path.join(dataset_path, 'groundTruth')
+
+    elif cfg.dataset == "surgery":
+        map_fname = BASE + 'data/surgery_I3D_new/mapping.txt'
+        dataset_path = BASE + 'data/surgery_I3D_new/'
+        feature_path = BASE + 'data/surgery_I3D_new/features'
+        train_split_fname = BASE + f'data/surgery_I3D_new/splits/train.{cfg.split}.bundle'
+        test_split_fname = BASE + f'data/surgery_I3D_new/splits/test.{cfg.split}.bundle'
+        feature_transpose = True  # (1024, T) -> (T, 1024)
+        bg_class = [0]
+        average_transcript_len = 10.0
+        groundTruth_path = os.path.join(dataset_path, 'groundtruth')
 
     else: # if dataset data is not defined here, try reading from the config file
         map_fname = cfg.map_fname

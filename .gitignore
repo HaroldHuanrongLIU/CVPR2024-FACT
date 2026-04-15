@@ -8,4 +8,6 @@ test.py
 ipynb
 old
 data/
+log/
+log_test/
 .omc/

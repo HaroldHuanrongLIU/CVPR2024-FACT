@@ -83,6 +83,7 @@ if __name__ == '__main__':
     os.makedirs(savedir, exist_ok=True)
     print('Saving log at', logdir)
 
+    wandb_mode = os.environ.get("WANDB_MODE", "offline" if cfg.aux.debug else "online")
     try:
         run = wandb.init(
                     project=cfg.aux.wandb_project, entity=cfg.aux.wandb_user,
@@ -90,7 +91,7 @@ if __name__ == '__main__':
                     group=cfg.aux.exp, resume="allow",
                     config=cfg2flatdict(cfg),
                     reinit=True, save_code=False,
-                    mode="offline" if cfg.aux.debug else "online",
+                    mode=wandb_mode,
                     )
     except Exception as e:
         print("WARNING: Failed to initialize wandb.")

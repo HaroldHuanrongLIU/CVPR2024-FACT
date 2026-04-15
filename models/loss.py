@@ -214,9 +214,9 @@ class MatchCriterion():
         frame_tgt = onehot_seg_label[:, sind] # f, s
         attn = attn[0, :, aind] # f, s
         attn_logp = torch.log_softmax(attn, dim=dim-1)
-        loss2 = - attn_logp * frame_tgt 
+        loss2 = - attn_logp * frame_tgt
         if self.sweight is not None:
-            loss2 = loss2 * self.sweight
+            loss2 = loss2 * self.sweight[sind]
         loss2 = loss2.sum(1).sum() / self.onehot_seg_label.sum()
 
         return loss2
@@ -235,9 +235,9 @@ class MatchCriterion():
         attn = attn[0, :, aind] # s, n
         attn_logp = torch.log_softmax(attn, dim=dim-1)
 
-        loss2 = - attn_logp * frame_tgt 
+        loss2 = - attn_logp * frame_tgt
         if self.sweight is not None:
-            loss2 = loss2 * self.sweight
+            loss2 = loss2 * self.sweight[sind]
 
         loss2 = loss2.sum(1).sum() / zoomed_label.sum()
 
