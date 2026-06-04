@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 from scipy.optimize import linear_sum_assignment
 from . import basic as basic
-from ..utils import utils
+from utils import utils
 import numpy as np
 
 def smooth_loss(logit, is_logit=True):
@@ -32,7 +32,7 @@ def torch_class_label_to_segment_label(label):
         segment_label[i] = aid
 
     transcript = torch.LongTensor(transcript).to(label.device)
-    
+
     return transcript, segment_label
 
 def logit2prob(clogit, dim=-1, class_sep=None):
@@ -275,4 +275,3 @@ class MatchCriterion():
         seg_loss = seg_loss.sum(-1).sum() / zoomed_label.sum()
 
         return seg_loss
-    

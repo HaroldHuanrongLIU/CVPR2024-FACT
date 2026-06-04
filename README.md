@@ -37,13 +37,13 @@ The training is configured using YAML, and all the configurations are listed in 
 ```shell
 cd FACT_actseg
 # breakfast
-python3 -m src.train --cfg src/configs/breakfast.yaml --set aux.gpu 0 split "split1"
+python3 train.py --cfg configs/breakfast.yaml --set aux.gpu 0 split "split1"
 # gtea
-python3 -m src.train --cfg src/configs/gtea.yaml --set aux.gpu 0 split "split1"
+python3 train.py --cfg configs/gtea.yaml --set aux.gpu 0 split "split1"
 # egoprocel
-python3 -m src.train --cfg src/configs/egoprocel.yaml --set aux.gpu 0 split "split1"
+python3 train.py --cfg configs/egoprocel.yaml --set aux.gpu 0 split "split1"
 # epic-kitchens
-python3 -m src.train --cfg src/configs/epic-kitchens.yaml --set aux.gpu 0 split "split1"
+python3 train.py --cfg configs/epic-kitchens.yaml --set aux.gpu 0 split "split1"
 ```
 By default, log will be saved to `FACT_actseg/log/<experiment-path>`. Evaluation results are saved as `Checkpoint` objects defined [utils/evaluate.py](./utils/evaluate.py). Loss and metrics are also visualized with wandb.
 
@@ -53,7 +53,7 @@ Please refer to [DATASET_SETUP_GUIDE.md](DATASET_SETUP_GUIDE.md) for setting up 
 ## Pre-Trained Models
 Pre-trained model weights can be downloaded from [here](https://drive.google.com/drive/folders/1yj6bnVwdXZQrx-F29kpjin27Vd30zRnd?usp=sharing). You can place the files under `FACT_actseg/ckpts` and test the models with the following command.
 ```shell
-python3 -m src.eval
+python3 eval.py
 ```
 *We lost the original data and model weights in a disk failure. These models are replicated afterward, thus the performance slightly varies from those in the papers.*
 

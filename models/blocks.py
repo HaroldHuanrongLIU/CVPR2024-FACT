@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from . import basic as basic
-from ..utils import utils
-from ..configs.utils import update_from
+from utils import utils
+from configs.utils import update_from
 from . import loss
 from .loss import MatchCriterion
 from .basic import torch_class_label_to_segment_label, time_mask
@@ -440,7 +440,6 @@ class UpdateBlockTDU(Block):
         smooth_loss = loss.smooth_loss( frame_clogit )
 
         return (frame_loss + seg_loss)/ 2 + atk_loss + f2a_loss + a2f_loss + self.cfg.Loss.sw * smooth_loss
-
 
 
 

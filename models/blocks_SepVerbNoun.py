@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from . import basic as basic
-from ..utils import utils
-from ..configs.utils import update_from
+from utils import utils
+from configs.utils import update_from
 from . import loss
 from .loss import MatchCriterion
 from .basic import torch_class_label_to_segment_label, time_mask
@@ -151,7 +151,7 @@ def init_VIDS_NIDS():
     """
     global _VIDS, _NIDS
     if (_VIDS is None) or (_NIDS is None):
-        from ..utils.dataset import load_action_mapping
+        from utils.dataset import load_action_mapping
 
         v2i, i2v = load_action_mapping('./data/epic-kitchens/processed/verb_mapping.txt')
         n2i, i2n = load_action_mapping('./data/epic-kitchens/processed/noun_mapping.txt')
@@ -494,6 +494,5 @@ class UpdateBlockTDU(Block):
         sl = loss.smooth_loss( torch.transpose(self.frame_logp, 0, 1), is_logit=False )
 
         return (frame_loss + seg_loss) / 2 + atk_loss + f2a_loss + a2f_loss + self.cfg.Loss.sw * sl
-
 
 

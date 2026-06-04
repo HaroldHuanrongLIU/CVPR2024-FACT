@@ -8,12 +8,12 @@ from torch import optim
 import torch
 import wandb
 
-from .utils.dataset import DataLoader, create_dataset
-from .utils.evaluate import Checkpoint
-from .home import get_project_base
-from .configs.utils import cfg2flatdict, setup_cfg
-from .utils.train_tools import resume_ckpt, compute_null_weight, save_results
-from .models.loss import MatchCriterion
+from utils.dataset import DataLoader, create_dataset
+from utils.evaluate import Checkpoint
+from home import get_project_base
+from configs.utils import cfg2flatdict, setup_cfg
+from utils.train_tools import resume_ckpt, compute_null_weight, save_results
+from models.loss import MatchCriterion
 
 def evaluate(global_step, net, testloader, run, savedir):
     print("TESTING" + "~"*10)
@@ -113,10 +113,10 @@ if __name__ == '__main__':
 
     ### create network #########################################################
     if cfg.dataset == 'epic':
-        from .models.blocks_SepVerbNoun import FACT
+        from models.blocks_SepVerbNoun import FACT
         net = FACT(cfg, dataset.input_dimension, 98, 301)
     else:
-        from .models.blocks import FACT
+        from models.blocks import FACT
         net = FACT(cfg, dataset.input_dimension, dataset.nclasses)
 
     if cfg.Loss.nullw == -1:

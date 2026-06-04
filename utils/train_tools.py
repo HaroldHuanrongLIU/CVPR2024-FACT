@@ -1,6 +1,6 @@
 import os
 import sys
-from ..home import get_project_base
+from home import get_project_base
 from .evaluate import Video, Checkpoint
 from .utils import to_numpy
 BASE = get_project_base()

@@ -3,7 +3,7 @@
 import numpy as np
 import os
 import torch
-from ..home import get_project_base
+from home import get_project_base
 from yacs.config import CfgNode
 from .utils import shrink_frame_label
 
